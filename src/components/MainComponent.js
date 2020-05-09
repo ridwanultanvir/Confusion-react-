@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { DISHES } from "../shared/dishes";
 import Menu from "./MenuComponent";
 import DishDetail from "./DishDetailComponent";
-import NavigationBar from "./Navbar";
+import Header from "./HeaderComponent";
+import Footer from "./FooterComponet";
 
 class Main extends Component {
   //dishId = null;
@@ -26,12 +27,13 @@ class Main extends Component {
     this.showDish(this.state.selectedDish);
     return (
       <div className="container">
-        <NavigationBar />
+        <Header />
         <Menu
           dishes={DISHES}
           setSelectedDish={(dish) => this.setSelectedDish(dish)}
         />
         <DishDetail dish={this.state.selectedDish} />
+        <Footer />
       </div>
     );
   }
