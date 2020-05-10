@@ -1,5 +1,14 @@
 import React, { Component } from "react";
-import { Card, CardImg, CardBody, CardTitle, CardText } from "reactstrap";
+import {
+  Card,
+  CardImg,
+  CardBody,
+  CardTitle,
+  CardText,
+  Breadcrumb,
+  BreadcrumbItem,
+} from "reactstrap";
+import { Link } from "react-router-dom";
 
 class DishDetail extends Component {
   constructor(props) {
@@ -23,12 +32,28 @@ class DishDetail extends Component {
       const details = this.dishDetails();
       const comments = this.getComments();
       return (
-        <div className="row mt-5">
-          <div className="col-md-5">{details}</div>
-          <div className="col-md-2"></div>
-          <div className="col-md-5">
-            <h1>Comments</h1>
-            {comments}
+        <div className="container">
+          <div className="row">
+            <Breadcrumb>
+              <BreadcrumbItem>
+                <Link to="/home">Home</Link>
+              </BreadcrumbItem>
+              <BreadcrumbItem>
+                <Link to="/menu">Menu</Link>
+              </BreadcrumbItem>
+              <BreadcrumbItem active>{this.props.dish.name}</BreadcrumbItem>
+            </Breadcrumb>
+            <div className="col-12">
+              <h3>{this.props.dish.name}</h3>
+            </div>
+          </div>
+          <div className="row mt-5">
+            <div className="col-md-5">{details}</div>
+            <div className="col-md-2"></div>
+            <div className="col-md-5">
+              <h1>Comments</h1>
+              {comments}
+            </div>
           </div>
         </div>
       );
@@ -50,7 +75,7 @@ class DishDetail extends Component {
   }
 
   getComments() {
-    const comments = this.props.dish.comments.map((comment) => (
+    const comments = this.props.comments.map((comment) => (
       <div key={comment.id}>
         <h3>{comment.author}</h3>
         <p>Date: {comment.date.substring(0, 10)}</p>

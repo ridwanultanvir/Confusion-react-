@@ -36,6 +36,21 @@ class Main extends Component {
   render() {
     this.showDish(this.state.selectedDish);
 
+    const DishWithId = ({ match }) => {
+      return (
+        <DishDetail
+          dish={
+            this.state.dishes.filter(
+              (dish) => dish.id === parseInt(match.params.dishId)
+            )[0]
+          }
+          comments={this.state.comments.filter(
+            (comment) => comment.dishId === parseInt(match.params.dishId)
+          )}
+        />
+      );
+    };
+
     const HomePage = () => (
       <Home
         dishes={this.state.dishes.filter((dish) => dish.featured === true)[0]}
@@ -58,6 +73,7 @@ class Main extends Component {
             path="/menu"
             component={() => <Menu dishes={DISHES} />}
           />
+          <Route path="/menu/:dishId" component={DishWithId} />
           <Route path="/contactus" component={() => <Contact />} />
           <Redirect to="/home" />
         </Switch>
