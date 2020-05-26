@@ -161,6 +161,8 @@ class Contact extends Component {
         <div className="row">
           <div className="col-12">
             <Form onSubmit={(e) => this.handleSubmit(e)}>
+              {" "}
+              {/**onSubmit for control korte bebohar kora hoice */}
               <FormGroup row>
                 <Label for="fName" sm={2}>
                   First Name
@@ -208,6 +210,7 @@ class Contact extends Component {
                     id="telephoneNum"
                     placeholder="Telephone number"
                     value={this.state.telnum}
+                    //er porer gula form control er jonno bebohar kora hoice
                     onChange={(event) => this.handleInputChange(event)}
                     onBlur={() => this.handleBlur("telnum")}
                     invalid={error.telnum !== ""}
@@ -215,7 +218,6 @@ class Contact extends Component {
                   <FormFeedback>{error.telnum}</FormFeedback>
                 </Col>
               </FormGroup>
-
               <FormGroup row>
                 <Label for="emailNum" sm={2}>
                   Email
@@ -227,6 +229,7 @@ class Contact extends Component {
                     id="emailNum"
                     placeholder="Email"
                     value={this.state.email}
+                    //er porer gula form control er jonno bebohar kora hoice
                     onChange={(event) => this.handleInputChange(event)}
                     onBlur={() => this.handleBlur("email")}
                     invalid={error.email !== ""}
@@ -234,7 +237,6 @@ class Contact extends Component {
                   <FormFeedback>{error.email}</FormFeedback>
                 </Col>
               </FormGroup>
-
               <Row Form>
                 <Col sm={{ size: 7, offset: 2 }}>
                   <FormGroup check>
@@ -243,6 +245,7 @@ class Contact extends Component {
                       name="agree"
                       id="exampleCheck"
                       checked={this.state.agree}
+                      //er porer gula form control er jonno bebohar kora hoice
                       onChange={(event) => this.handleInputChange(event)}
                     />
                     <Label for="exampleCheck" check>
@@ -256,6 +259,7 @@ class Contact extends Component {
                     name="contactType"
                     id="contactType"
                     value={this.state.contactType}
+                    //er porer gula form control er jonno bebohar kora hoice
                     onChange={(event) => this.handleInputChange(event)}
                   >
                     <option>tel.</option>
@@ -263,7 +267,6 @@ class Contact extends Component {
                   </Input>
                 </Col>
               </Row>
-
               <FormGroup row>
                 <Label for="exampleText" sm={2}>
                   Your feedback
@@ -274,6 +277,7 @@ class Contact extends Component {
                     name="message"
                     id="exampleText"
                     rows="10"
+                    //er porer gula form control er jonno bebohar kora hoice
                     onChange={(event) => this.handleInputChange(event)}
                   />
                 </Col>

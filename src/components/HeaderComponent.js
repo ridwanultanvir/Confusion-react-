@@ -41,11 +41,11 @@ class Header extends Component {
     this.toggleModal();
     alert(
       "Username " +
-        this.username.value +
+        this.usernamevar.value +
         " password " +
-        this.password.value +
+        this.passwordvar.value +
         " Rememebr me " +
-        this.remember.checked
+        this.remembervar.checked
     );
     event.preventDefautlt();
   }
@@ -98,6 +98,7 @@ class Header extends Component {
             </Collapse>
           </div>
         </Navbar>
+
         <Jumbotron>
           <div className="container">
             <div className="row row-header">
@@ -111,13 +112,14 @@ class Header extends Component {
             </div>
           </div>
         </Jumbotron>
+
         <Modal
           isOpen={this.state.isModalOpen}
           toggle={() => this.toggleModal()}
         >
           <ModalHeader toggle={() => this.toggleModal()}>Login</ModalHeader>
           <ModalBody>
-            <Form onSubmit={(event) => this.handleLogin(event)}>
+            <Form onSubmit={() => this.handleLogin()}>
               <FormGroup row>
                 <Label for="username" sm={2}>
                   Username:
@@ -128,7 +130,7 @@ class Header extends Component {
                     id="username"
                     name="username"
                     placeholder="username"
-                    innerRef={(input) => (this.username = input)}
+                    innerRef={(input) => (this.usernamevar = input)}
                   ></Input>
                 </Col>
               </FormGroup>
@@ -142,7 +144,7 @@ class Header extends Component {
                     id="password"
                     name="password"
                     placeholder="password"
-                    innerRef={(input) => (this.password = input)}
+                    innerRef={(input) => (this.passwordvar = input)}
                   ></Input>
                 </Col>
               </FormGroup>
@@ -153,7 +155,7 @@ class Header extends Component {
                       <Input
                         type="checkbox"
                         name="remember"
-                        innerRef={(input) => (this.remember = input)}
+                        innerRef={(input) => (this.remembervar = input)}
                       />{" "}
                       Remember me
                     </Label>
