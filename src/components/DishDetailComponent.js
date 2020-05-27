@@ -97,7 +97,10 @@ class DishDetail extends Component {
     return (
       <div>
         {comments}
-        <CommentForm />
+        <CommentForm
+          dishId={this.props.dish.id}
+          addComment={this.props.addComment}
+        />
         <br />
       </div>
     );
@@ -119,6 +122,12 @@ class CommentForm extends Component {
   handleSubmit(values) {
     this.toggleModal();
     alert(JSON.stringify(values));
+    this.props.addComment(
+      this.props.dishId,
+      values.rating,
+      values.Name,
+      values.Comment
+    );
   }
 
   toggleModal() {
@@ -191,7 +200,7 @@ class CommentForm extends Component {
                 </Row>
                 <Row className="form-group">
                   <Col md={2}>
-                    <Label htmlFor="comment">Name</Label>
+                    <Label htmlFor="comment">Comment</Label>
                   </Col>
                   <Col md={10}>
                     <Control.textarea

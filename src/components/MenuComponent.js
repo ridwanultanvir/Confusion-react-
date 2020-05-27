@@ -2,9 +2,7 @@ import React, { Component } from "react";
 import {
   Card,
   CardImg,
-  CardBody,
   CardTitle,
-  CardText,
   CardImgOverlay,
   Breadcrumb,
   BreadcrumbItem,
