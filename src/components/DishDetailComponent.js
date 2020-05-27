@@ -38,7 +38,7 @@ class DishDetail extends Component {
       return <div></div>;
     } else {
       const details = this.dishDetails();
-      const comments = this.getComments();
+      const comments = this.RenderComments();
       return (
         <div className="container">
           <div className="row">
@@ -82,7 +82,7 @@ class DishDetail extends Component {
     return details;
   }
 
-  getComments() {
+  RenderComments() {
     const comments = this.props.comments.map((comment) => (
       <div key={comment.id}>
         <h3>{comment.author}</h3>
