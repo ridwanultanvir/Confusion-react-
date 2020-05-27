@@ -7,8 +7,16 @@ import {
   CardText,
   Breadcrumb,
   BreadcrumbItem,
+  ModalHeader,
+  ModalBody,
+  Modal,
+  Button,
+  Row,
+  Label,
+  Col,
 } from "reactstrap";
 import { Link } from "react-router-dom";
+import { LocalForm, Control, Errors } from "react-redux-form";
 
 class DishDetail extends Component {
   constructor(props) {
@@ -86,7 +94,123 @@ class DishDetail extends Component {
       </div>
     ));
 
-    return comments;
+    return (
+      <div>
+        {comments}
+        <CommentForm />
+        <br />
+      </div>
+    );
+  }
+}
+
+const required = (value) => value && value.length > 0;
+const maxLength = (value) => !value || value.length <= 15;
+const minLength = (value) => value && value.length >= 3;
+
+class CommentForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isModalOpen: false,
+    };
+  }
+
+  handleSubmit(values) {
+    this.toggleModal();
+    alert(JSON.stringify(values));
+  }
+
+  toggleModal() {
+    this.setState({ isModalOpen: !this.state.isModalOpen });
+  }
+
+  render() {
+    return (
+      <div>
+        <Button outline color="info" onClick={() => this.toggleModal()}>
+          Submit comment
+        </Button>
+        <Modal
+          isOpen={this.state.isModalOpen}
+          toggle={() => this.toggleModal()}
+        >
+          <ModalHeader toggle={() => this.toggleModal()}>
+            Submit comment
+          </ModalHeader>
+          <ModalBody>
+            <div className="container">
+              <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
+                <Row className="form-group">
+                  <Col md={2}>
+                    <Label htmlFor="rating">Rating</Label>
+                  </Col>
+                  <Col md={10}>
+                    <Control.select
+                      id="rating"
+                      model=".rating"
+                      name="rating"
+                      className="form-control"
+                      defaultValue="1"
+                    >
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </Control.select>
+                  </Col>
+                </Row>
+                <Row className="form-group">
+                  <Col md={2}>
+                    <Label htmlFor="name">Name</Label>
+                  </Col>
+                  <Col md={10}>
+                    <Control.text
+                      className="form-control"
+                      id="name"
+                      model=".Name"
+                      placeholder="your name"
+                      validators={{
+                        required,
+                        maxLength,
+                        minLength,
+                      }}
+                    />
+                    <Errors
+                      className="text-danger"
+                      model=".Name"
+                      show="touched"
+                      messages={{
+                        required: "this field is required.",
+                        maxLength: "name should be less than 15 charecters.",
+                        minLength: "name should be more than 2 charecters.",
+                      }}
+                    />
+                  </Col>
+                </Row>
+                <Row className="form-group">
+                  <Col md={2}>
+                    <Label htmlFor="comment">Name</Label>
+                  </Col>
+                  <Col md={10}>
+                    <Control.textarea
+                      className="form-control"
+                      id="comment"
+                      model=".Comment"
+                      rows="6"
+                    />
+                  </Col>
+                </Row>
+                <Button type="submit" color="primary">
+                  Submit
+                </Button>
+              </LocalForm>
+            </div>
+          </ModalBody>
+        </Modal>
+      </div>
+    );
   }
 }
 
