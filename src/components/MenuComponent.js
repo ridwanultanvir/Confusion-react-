@@ -8,6 +8,7 @@ import {
   BreadcrumbItem,
 } from "reactstrap";
 import { Link } from "react-router-dom";
+import { Loading } from "./LoadingComponent";
 
 class Menu extends Component {
   constructor(props) {
@@ -16,24 +17,46 @@ class Menu extends Component {
   }
 
   render() {
-    console.log("menu component render");
-    const menu = this.getMenu();
-    return (
-      <div className="container">
-        <div className="row">
-          <Breadcrumb>
-            <BreadcrumbItem>
-              <Link to="/home">Home</Link>
-            </BreadcrumbItem>
-            <BreadcrumbItem active>Menu</BreadcrumbItem>
-          </Breadcrumb>
-          <div className="col-12">
-            <h3>Menu</h3>
+    if (this.props.dishes.isLoading) {
+      return (
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <Loading />
+            </div>
           </div>
         </div>
-        <div className="row">{menu}</div>
-      </div>
-    );
+      );
+    } else if (this.props.dishes.errorMessage != null) {
+      return (
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <h4>{this.props.dishes.errorMessage}</h4>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      console.log("menu component render");
+      const menu = this.getMenu();
+      return (
+        <div className="container">
+          <div className="row">
+            <Breadcrumb>
+              <BreadcrumbItem>
+                <Link to="/home">Home</Link>
+              </BreadcrumbItem>
+              <BreadcrumbItem active>Menu</BreadcrumbItem>
+            </Breadcrumb>
+            <div className="col-12">
+              <h3>Menu</h3>
+            </div>
+          </div>
+          <div className="row">{menu}</div>
+        </div>
+      );
+    }
   }
 
   componentDidMount() {
@@ -41,7 +64,7 @@ class Menu extends Component {
   }
 
   getMenu() {
-    const menu = this.props.dishes.map((dish) => {
+    const menu = this.props.dishes.dishes.map((dish) => {
       return (
         <div className="col-12 col-md-5 mt-5">
           <Card>

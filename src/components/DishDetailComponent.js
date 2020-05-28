@@ -17,6 +17,7 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { LocalForm, Control, Errors } from "react-redux-form";
+import { Loading } from "./LoadingComponent";
 
 class DishDetail extends Component {
   constructor(props) {
@@ -34,9 +35,27 @@ class DishDetail extends Component {
 
   render() {
     console.log("dish detail render invoked");
-    if (this.props.dish === null) {
-      return <div></div>;
-    } else {
+    if (this.props.dishIsLoading) {
+      return (
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <Loading />
+            </div>
+          </div>
+        </div>
+      );
+    } else if (this.props.dishErrorMessage != null) {
+      return (
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <h4>{this.props.dishErrorMessage}</h4>
+            </div>
+          </div>
+        </div>
+      );
+    } else if (this.props.dish != null) {
       const details = this.dishDetails();
       const comments = this.RenderComments();
       return (
