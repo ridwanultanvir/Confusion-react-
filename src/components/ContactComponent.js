@@ -8,7 +8,7 @@ import {
   Button,
 } from "reactstrap";
 import { Link } from "react-router-dom";
-import { LocalForm, Control, Errors } from "react-redux-form";
+import { Control, Form, Errors, actions } from "react-redux-form";
 // import ContactForm from "./ContactComponentForm";
 
 const required = (value) => value && value.length > 0;
@@ -47,6 +47,7 @@ class Contact extends Component {
 
   handleSubmit(values) {
     alert("current state is " + JSON.stringify(values));
+    this.props.resetFeedbackForm();
   }
 
   render() {
@@ -119,7 +120,10 @@ class Contact extends Component {
 
         <div className="row">
           <div className="col-12">
-            <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
+            <Form
+              model="feedback"
+              onSubmit={(values) => this.handleSubmit(values)}
+            >
               <Row className="form-group">
                 <Label htmlFor="firstname" md={2}>
                   First Name
@@ -282,7 +286,7 @@ class Contact extends Component {
                   </Button>
                 </Col>
               </Row>
-            </LocalForm>
+            </Form>
             {/* <ContactForm submit={(values) => this.handleSubmit(values)} /> */}
           </div>
         </div>
