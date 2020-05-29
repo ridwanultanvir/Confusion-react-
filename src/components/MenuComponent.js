@@ -9,6 +9,7 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { Loading } from "./LoadingComponent";
+import { baseUrl } from "../shared/baseUrl";
 
 class Menu extends Component {
   constructor(props) {
@@ -69,7 +70,7 @@ class Menu extends Component {
         <div className="col-12 col-md-5 mt-5">
           <Card>
             <Link to={`menu/${dish.id}`}>
-              <CardImg top width="100%" src={dish.image}></CardImg>
+              <CardImg top width="100%" src={baseUrl + dish.image}></CardImg>
               <CardImgOverlay>
                 <CardTitle>{dish.name}</CardTitle>
               </CardImgOverlay>

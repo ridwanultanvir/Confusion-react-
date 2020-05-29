@@ -18,6 +18,7 @@ import {
 import { Link } from "react-router-dom";
 import { LocalForm, Control, Errors } from "react-redux-form";
 import { Loading } from "./LoadingComponent";
+import { baseUrl } from "../shared/baseUrl";
 
 class DishDetail extends Component {
   constructor(props) {
@@ -91,7 +92,7 @@ class DishDetail extends Component {
     const dish = this.props.dish;
     const details = (
       <Card>
-        <CardImg top width="100%" src={dish.image} />
+        <CardImg top width="100%" src={baseUrl + dish.image} />
         <CardBody>
           <CardTitle>{dish.name}</CardTitle>
           <CardText>{dish.description}</CardText>
@@ -102,27 +103,35 @@ class DishDetail extends Component {
   }
 
   RenderComments() {
-    const comments = this.props.comments.map((comment) => (
-      <div key={comment.id}>
-        <h3>{comment.author}</h3>
-        <p>Date: {comment.date.substring(0, 10)}</p>
-        <p>Time: {comment.date.substring(11, 19)}</p>
-        <p>Rating: {comment.rating} stars </p>
-        <p>Comment: {comment.comment}</p>
-        <br />
-      </div>
-    ));
+    if (this.props.commentsErrorMessage != null) {
+      return (
+        <div>
+          <h4>{this.props.commentsErrorMessage}</h4>
+        </div>
+      );
+    } else {
+      const comments = this.props.comments.map((comment) => (
+        <div key={comment.id}>
+          <h3>{comment.author}</h3>
+          <p>Date: {comment.date.substring(0, 10)}</p>
+          <p>Time: {comment.date.substring(11, 19)}</p>
+          <p>Rating: {comment.rating} stars </p>
+          <p>Comment: {comment.comment}</p>
+          <br />
+        </div>
+      ));
 
-    return (
-      <div>
-        {comments}
-        <CommentForm
-          dishId={this.props.dish.id}
-          addComment={this.props.addComment}
-        />
-        <br />
-      </div>
-    );
+      return (
+        <div>
+          {comments}
+          <CommentForm
+            dishId={this.props.dish.id}
+            addComment={this.props.addComment}
+          />
+          <br />
+        </div>
+      );
+    }
   }
 }
 

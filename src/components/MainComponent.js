@@ -8,7 +8,12 @@ import Contact from "./ContactComponent";
 import About from "./AboutComponent";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { addComment, fetchDishes } from "../redux/ActionCreators";
+import {
+  addComment,
+  fetchDishes,
+  fetchComments,
+  fetchPromos,
+} from "../redux/ActionCreators";
 import { actions } from "react-redux-form";
 
 const mapStateToProps = (state) => ({
@@ -34,6 +39,12 @@ const mapDispatchToProps = (dispatch) => ({
   fetchDishes: () => {
     dispatch(fetchDishes());
   },
+  fetchComments: () => {
+    dispatch(fetchComments());
+  },
+  fetchPromos: () => {
+    dispatch(fetchPromos());
+  },
   resetFeedbackForm: () => {
     dispatch(actions.reset("feedback"));
     // feedback is the name of the form model in contactuscomponent. action.reset() which
@@ -53,6 +64,8 @@ class Main extends Component {
 
   componentDidMount() {
     this.props.fetchDishes();
+    this.props.fetchComments();
+    this.props.fetchPromos();
   }
 
   setSelectedDish(dish) {
@@ -76,9 +89,10 @@ class Main extends Component {
           }
           dishIsLoading={this.props.dishes.isLoading}
           dishErrorMessage={this.props.dishes.errorMessage}
-          comments={this.props.comments.filter(
+          comments={this.props.comments.comments.filter(
             (comment) => comment.dishId === parseInt(match.params.dishId)
           )}
+          commentsErrorMessage={this.props.comments.errorMessage}
           addComment={this.props.addComment}
         />
       );
@@ -95,8 +109,12 @@ class Main extends Component {
           this.props.leaders.filter((leader) => leader.featured === true)[0]
         }
         promotions={
-          this.props.promotions.filter((promo) => promo.featured === true)[0]
+          this.props.promotions.promotions.filter(
+            (promo) => promo.featured === true
+          )[0]
         }
+        promotionsLoading={this.props.promotions.isLoading}
+        promotionsErrorMessage={this.props.promotions.errorMessage}
       />
     );
 
