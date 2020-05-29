@@ -1,15 +1,53 @@
 import * as ActionTypes from "./ActionTypes";
 import { baseUrl } from "../shared/baseUrl";
+import fetch from "cross-fetch";
 
-export const addComment = (dishId, rating, author, comment) => ({
+export const addComment = (comment) => ({
   type: ActionTypes.ADD_COMMENT,
-  payload: {
+  payload: comment,
+});
+
+export const postComment = (dishId, rating, author, comment) => (dispatch) => {
+  const newComment = {
     dishId: dishId,
     rating: rating,
     author: author,
     comment: comment,
-  },
-});
+  };
+  newComment.date = new Date().toISOString();
+
+  fetch(baseUrl + "comments", {
+    method: "POST",
+    body: JSON.stringify(newComment),
+    headers: {
+      "Content-type": "application/json",
+    },
+    credentials: "same-origin",
+  })
+    .then(
+      (response) => {
+        if (response.ok) {
+          return response;
+        } else {
+          let error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          error.response = response;
+          throw error;
+        }
+      },
+      (error) => {
+        let err = new Error(error.message);
+        throw err;
+      }
+    )
+    .then((rseponse) => rseponse.json())
+    .then((comment) => dispatch(addComment(comment)))
+    .catch((error) => {
+      console.log(error.message);
+      alert("error: ", error.message);
+    });
+};
 
 export const fetchDishes = () => (dispatch) => {
   dispatch(dishesLoading(true));

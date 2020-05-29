@@ -126,7 +126,7 @@ class DishDetail extends Component {
           {comments}
           <CommentForm
             dishId={this.props.dish.id}
-            addComment={this.props.addComment}
+            postComment={this.props.postComment}
           />
           <br />
         </div>
@@ -150,7 +150,7 @@ class CommentForm extends Component {
   handleSubmit(values) {
     this.toggleModal();
     alert(JSON.stringify(values));
-    this.props.addComment(
+    this.props.postComment(
       this.props.dishId,
       values.rating,
       values.Name,
