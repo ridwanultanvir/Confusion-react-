@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 import { LocalForm, Control, Errors } from "react-redux-form";
 import { Loading } from "./LoadingComponent";
 import { baseUrl } from "../shared/baseUrl";
+import { FadeTransform, Fade, Stagger } from "react-animation-components";
 
 class DishDetail extends Component {
   constructor(props) {
@@ -91,13 +92,20 @@ class DishDetail extends Component {
   dishDetails() {
     const dish = this.props.dish;
     const details = (
-      <Card>
-        <CardImg top width="100%" src={baseUrl + dish.image} />
-        <CardBody>
-          <CardTitle>{dish.name}</CardTitle>
-          <CardText>{dish.description}</CardText>
-        </CardBody>
-      </Card>
+      <FadeTransform
+        in
+        transformProps={{
+          exitTransform: "scale(0.5) translateY(-50%)",
+        }}
+      >
+        <Card>
+          <CardImg top width="100%" src={baseUrl + dish.image} />
+          <CardBody>
+            <CardTitle>{dish.name}</CardTitle>
+            <CardText>{dish.description}</CardText>
+          </CardBody>
+        </Card>
+      </FadeTransform>
     );
     return details;
   }
@@ -111,19 +119,21 @@ class DishDetail extends Component {
       );
     } else {
       const comments = this.props.comments.map((comment) => (
-        <div key={comment.id}>
-          <h3>{comment.author}</h3>
-          <p>Date: {comment.date.substring(0, 10)}</p>
-          <p>Time: {comment.date.substring(11, 19)}</p>
-          <p>Rating: {comment.rating} stars </p>
-          <p>Comment: {comment.comment}</p>
-          <br />
-        </div>
+        <Fade in>
+          <div key={comment.id}>
+            <h3>{comment.author}</h3>
+            <p>Date: {comment.date.substring(0, 10)}</p>
+            <p>Time: {comment.date.substring(11, 19)}</p>
+            <p>Rating: {comment.rating} stars </p>
+            <p>Comment: {comment.comment}</p>
+            <br />
+          </div>
+        </Fade>
       ));
 
       return (
         <div>
-          {comments}
+          <Stagger in>{comments}</Stagger>
           <CommentForm
             dishId={this.props.dish.id}
             postComment={this.props.postComment}
