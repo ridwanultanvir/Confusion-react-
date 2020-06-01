@@ -13,6 +13,8 @@ import {
   fetchDishes,
   fetchComments,
   fetchPromos,
+  fetchLeaders,
+  postFeedback,
 } from "../redux/ActionCreators";
 import { actions } from "react-redux-form";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
@@ -46,6 +48,12 @@ const mapDispatchToProps = (dispatch) => ({
   fetchPromos: () => {
     dispatch(fetchPromos());
   },
+  fetchLeaders: () => {
+    dispatch(fetchLeaders());
+  },
+  postFeedback: (feedback) => {
+    dispatch(postFeedback(feedback));
+  },
   resetFeedbackForm: () => {
     dispatch(actions.reset("feedback"));
     // feedback is the name of the form model in contactuscomponent. action.reset() which
@@ -67,6 +75,7 @@ class Main extends Component {
     this.props.fetchDishes();
     this.props.fetchComments();
     this.props.fetchPromos();
+    this.props.fetchLeaders();
   }
 
   setSelectedDish(dish) {
@@ -107,8 +116,12 @@ class Main extends Component {
         dishIsLoading={this.props.dishes.isLoading}
         dishErrorMessage={this.props.dishes.errorMessage}
         leaders={
-          this.props.leaders.filter((leader) => leader.featured === true)[0]
+          this.props.leaders.leaders.filter(
+            (leader) => leader.featured === true
+          )[0]
         }
+        leadersLoading={this.props.leaders.isLoading}
+        leadersErrorMessage={this.props.leaders.errorMessage}
         promotions={
           this.props.promotions.promotions.filter(
             (promo) => promo.featured === true
@@ -137,10 +150,17 @@ class Main extends Component {
               />
               <Route path="/menu/:dishId" component={DishWithId} />
               <Route path="/contactus">
-                <Contact resetFeedbackForm={this.props.resetFeedbackForm} />
+                <Contact
+                  resetFeedbackForm={this.props.resetFeedbackForm}
+                  postFeedback={this.props.postFeedback}
+                />
               </Route>
               <Route path="/aboutus">
-                <About leaders={this.props.leaders} />
+                <About
+                  leaders={this.props.leaders.leaders}
+                  leadersLoading={this.props.leaders.isLoading}
+                  leadersErrorMessage={this.props.leaders.errorMessage}
+                />
               </Route>
               {/*<Redirect to="/home" />*/}
             </Switch>

@@ -160,3 +160,74 @@ export const promosFailed = (errorMessage) => ({
   type: ActionTypes.PROMOS_FAILED,
   payload: errorMessage,
 });
+
+export const fetchLeaders = () => (dispatch) => {
+  dispatch(leadersLoading());
+
+  fetch(baseUrl + "leaders")
+    .then(
+      (response) => {
+        if (response.ok) {
+          return response;
+        } else {
+          let error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          error.response = response;
+          throw error;
+        }
+      },
+      (error) => {
+        let err = new Error(error.message);
+        throw err;
+      }
+    )
+    .then((response) => response.json())
+    .then((data) => dispatch(addLeaders(data)))
+    .catch((error) => dispatch(leadersFailed(error.message)));
+};
+
+export const leadersLoading = () => ({
+  type: ActionTypes.LEADERS_LOADING,
+});
+
+export const addLeaders = (leader) => ({
+  type: ActionTypes.ADD_LEADERS,
+  payload: leader,
+});
+
+export const leadersFailed = (errorMessage) => ({
+  type: ActionTypes.LEADERS_FAILED,
+  payload: errorMessage,
+});
+
+export const postFeedback = (feedback) => (dispatch) => {
+  fetch(baseUrl + "feedback", {
+    method: "POST",
+    body: JSON.stringify(feedback),
+    headers: {
+      "Content-type": "application/json",
+    },
+    credentials: "same-origin",
+  })
+    .then(
+      (response) => {
+        if (response.ok) {
+          return response;
+        } else {
+          let error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          error.response = response;
+          throw error;
+        }
+      },
+      (error) => {
+        let err = new Error(error.message);
+        throw err;
+      }
+    )
+    .then((response) => response.json())
+    .then((data) => alert(JSON.stringify(data)))
+    .catch((error) => alert(error.message));
+};
